@@ -2,3 +2,4 @@
 #include "OpenCG/cgVector.h"
 #include "OpenCG/cgSize.h"
 #include "OpenCG/cgWindow.h"
+#include "OpenCG/cgBitmap.h"
