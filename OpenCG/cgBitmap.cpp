@@ -1,5 +1,6 @@
 #include "cgBitmap.h"
 #include <iostream>
+#include <algorithm>
 
 cgBitmap::cgBitmap( cgSize s )
 {
@@ -44,13 +45,29 @@ void cgBitmap::addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
 
 void cgBitmap::addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
 {
+    rPosition.x = std::max(0,rPosition.x);
+    rPosition.y = std::max(0,rPosition.y);
+    int ix = std::min(rPosition.x+rSize.width, size.width);
+    int iy = std::min(rPosition.y+rSize.height, size.height);
+    int tempj;
 
+    for ( int j(rPosition.y); j<iy; j++ )
+    {
+        tempj = j*size.width;
+        for ( int i(rPosition.x); i<ix; i++ )
+        {
+            bufor[i+tempj] = char_i;
+        }
+    }
 }
 
 
 void cgBitmap::addPixel( cgCoordi position, CHAR_INFO char_i )
 {
-
+    if ( position.x < size.width && position.x >= 0 && position.y < size.height && position.y >= 0 )
+    {
+        bufor[position.x + position.y*size.width ] = char_i;
+    }
 }
 
 
@@ -62,7 +79,31 @@ cgBitmap cgBitmap::getPart( cgCoordi bitmapSource, cgSize bitmapSize )
 
 void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
 {
+    int startx = std::max(0,cpPoint.x);
+    int starty = std::max(0,cpPoint.y);
+    int finx = std::min(cpPoint.x+size.width, destiny.size.width);
+    int finy = std::min(cpPoint.y+size.height, destiny.size.height);
+    int copytoY;
+    int copyfromY;
+    int copyto;
+    int copyfrom;
 
+    for ( int j(starty); j<finy; j++ )
+    {
+        copytoY = j*destiny.size.width;
+        copyfromY = (j-cpPoint.y)*size.width;
+
+        for ( int i(startx); i<finx; i++ )
+        {
+            copyto = i+copytoY;
+            copyfrom = i-cpPoint.x + copyfromY;
+
+            if( bufor[copyfrom].Attributes != CG_TRANSPARENT )
+            {
+                destiny.bufor[ copyto ] = bufor[ copyfrom ];
+            }
+        }
+    }
 }
 
 

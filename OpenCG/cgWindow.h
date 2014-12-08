@@ -22,7 +22,7 @@
 
 class cgWindow
 {
-private:
+public:
     static cgSize size;
     static char* name;
     static cgSize fontSize;

@@ -1,11 +1,11 @@
 #ifndef _CGBITMAP_
 #define _CGBITMAP_
 
+#define CG_TRANSPARENT 0
+
 #include "cgSize.h"
 #include "cgCoord.h"
 #include <windows.h>
-
-#define true false
 
 class cgBitmap
 {
