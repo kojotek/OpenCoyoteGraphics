@@ -1,6 +1,7 @@
 #include "cgBitmap.h"
 #include <iostream>
 #include <algorithm>
+#include "cgWindow.h"
 
 cgBitmap::cgBitmap( cgSize s )
 {
@@ -71,12 +72,6 @@ void cgBitmap::addPixel( cgCoordi position, CHAR_INFO char_i )
 }
 
 
-cgBitmap cgBitmap::getPart( cgCoordi bitmapSource, cgSize bitmapSize )
-{
-
-}
-
-
 void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
 {
     int startx = std::max(0,cpPoint.x);
@@ -109,5 +104,8 @@ void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
 
 void cgBitmap::print( cgCoordi cpPoint )
 {
-
+    COORD charBufSize = {cgWindow::size.width, cgWindow::size.height};
+    COORD characterPos = {0,0};
+    SMALL_RECT writeArea = {cpPoint.x, cpPoint.y, cpPoint.x+cgWindow::size.width-1, cpPoint.y+cgWindow::size.height-1};
+    WriteConsoleOutputA(cgWindow::outputHandle, bufor, charBufSize, characterPos, &writeArea);
 }

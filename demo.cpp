@@ -1,12 +1,38 @@
 #include <iostream>
 #include "OpenCG.h"
-
+#include <bitset>
 
 int main()
 {
 
-    cgWindow::init( cgSize(100,50), "Little Coyote enjoys console", cgSize(CG_FONT_SIZE_8X8) );
+    cgWindow::init( cgSize(80,80), "Little Coyote enjoys console", cgSize(CG_FONT_SIZE_8X8) );
 
+    cgKeyboard kb;
+
+    while(true)
+    {
+        kb.updateKeyboard();
+        if (kb.isUp[27])
+            std::cout << "puscilem escape" << std::endl;
+    }
+
+/*
+    std::bitset<8> b1;
+    b1[0] = 1;
+    b1[3] = 1;
+    b1[7] = 1;
+
+    for (int a(0); a<b1.size();a++)
+        std::cout<<b1[a];
+
+    std::bitset<8> b2;
+    b2 = ~b1;
+
+    std::cout<<std::endl;
+    for (int a(0); a<b2.size();a++)
+        std::cout<<b2[a];
+*/
+/*
     cgCoordi coordInt(3, 55);
     cgCoordf coordFloat(5.34f, 30.98f);
 
@@ -42,19 +68,18 @@ int main()
     }
 
 
-    mychar.Attributes = 111;
-    bigbmp.fill(mychar);
+    for (int x(0); x<bigbmp.size.width; x++)
+        for (int y(0); y<bigbmp.size.height; y++)
+        {
+            bigbmp.bufor[x + y*bigbmp.size.width].Attributes = rand()%256;
+            bigbmp.bufor[x + y*bigbmp.size.width].Char.AsciiChar = rand()%256;
+        }
 
-
-    COORD charBufSize = {cgWindow::size.width, cgWindow::size.height};
-    COORD characterPos = {0,0};
-    SMALL_RECT writeArea = {0,0,cgWindow::size.width,cgWindow::size.height};
 
     int bigx=0; int bigy = 10;
     int bigMove = 1;
     int smallx=70; int smally = 20;
     int smallMove = -1;
-
 
     mychar.Attributes = 1;
 
@@ -66,7 +91,7 @@ int main()
         bigbmp.copyToBitmap(screen, cgCoordi(bigx,bigy));
         smallbmp.copyToBitmap(screen, cgCoordi(smallx,smally));
 
-        WriteConsoleOutputA(cgWindow::outputHandle, screen.bufor, charBufSize, characterPos, &writeArea);
+        screen.print( cgCoordi(0,0) );
 
         if( bigx+bigbmp.size.width >= cgWindow::size.width )
             bigMove = -1;
@@ -81,9 +106,9 @@ int main()
         bigx += bigMove;
         smallx += smallMove;
 
-        Sleep(40);
+        Sleep(20);
 
     }
-
+*/
     return 0;
 }

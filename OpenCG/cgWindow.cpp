@@ -2,8 +2,8 @@
 #include "cgSize.h"
 
 
-HANDLE cgWindow::inputHandle( GetStdHandle(STD_INPUT_HANDLE) );
-HANDLE cgWindow::outputHandle( GetStdHandle(STD_OUTPUT_HANDLE) );
+HANDLE cgWindow::inputHandle;
+HANDLE cgWindow::outputHandle;
 cgSize cgWindow::size;
 char* cgWindow::name;
 cgSize cgWindow::fontSize;
@@ -11,6 +11,8 @@ cgSize cgWindow::fontSize;
 
 void cgWindow::init( cgSize s, char* n, cgSize f )
 {
+    inputHandle = GetStdHandle(STD_INPUT_HANDLE);
+    outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     resizeFont(f);
     resize(s);
     rename(n);
@@ -19,6 +21,8 @@ void cgWindow::init( cgSize s, char* n, cgSize f )
 
 void cgWindow::init()
 {
+    inputHandle = GetStdHandle(STD_INPUT_HANDLE);
+    outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     resizeFont(CG_FONT_SIZE_8X12);
     resize(cgSize(20,20));
     rename("Coyote Console");

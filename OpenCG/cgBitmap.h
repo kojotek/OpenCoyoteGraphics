@@ -22,7 +22,6 @@ public:
     void addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i );
     void addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i );
     void addPixel( cgCoordi position, CHAR_INFO char_i );
-    cgBitmap getPart( cgCoordi bitmapSource, cgSize bitmapSize );
     void copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint );
     void print( cgCoordi cpPoint );
 };
