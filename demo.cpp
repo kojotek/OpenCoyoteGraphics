@@ -1,12 +1,21 @@
 #include <iostream>
 #include "OpenCG.h"
-#include <bitset>
 
 int main()
 {
 
     cgWindow::init( cgSize(80,80), "Little Coyote enjoys console", cgSize(CG_FONT_SIZE_8X8) );
 
+    cgTimer timer;
+
+    int i = 0;
+
+    while (1)
+    {
+        std::cout << timer.getTime( CG_MICROSECONDS ) << "   " << timer.getTime( CG_MILISECONDS ) << "   " << timer.getTime( CG_SECONDS ) << std::endl;
+    }
+
+/*
     cgKeyboard kb;
 
     cgCoordi coordInt(3, 55);
@@ -59,37 +68,45 @@ int main()
 
     mychar.Attributes = 1;
 
+    cgTimer timer;
+
     while(true)
     {
 
-        kb.updateKeyboard();
+        timer.reset( CG_MILISECONDS );
 
-        screen.fill(mychar);
+        while( timer.getTime( CG_MILISECONDS ) < 16 )
+        {
+            kb.updateKeyboard();
 
-        bigbmp.copyToBitmap(screen, cgCoordi(bigx,bigy));
-        smallbmp.copyToBitmap(screen, cgCoordi(smallx,smally));
+            screen.fill(mychar);
+
+            bigbmp.copyToBitmap(screen, cgCoordi(bigx,bigy));
+            smallbmp.copyToBitmap(screen, cgCoordi(smallx,smally));
+
+            if( bigx+bigbmp.size.width >= cgWindow::size.width )
+                bigMove = -1;
+            if( bigx <= 0 )
+                bigMove = 1;
+
+            if( kb.isPressed[VK_LEFT] )
+                smallx -= 1;
+           if( kb.isPressed[VK_RIGHT] )
+                smallx += 1;
+            if( kb.isPressed[VK_UP] )
+                smally -= 1;
+            if( kb.isPressed[VK_DOWN] )
+                smally += 1;
+
+            bigx += bigMove;
+
+        }
 
         screen.print( cgCoordi(0,0) );
 
-        if( bigx+bigbmp.size.width >= cgWindow::size.width )
-            bigMove = -1;
-        if( bigx <= 0 )
-            bigMove = 1;
-
-        if( kb.isPressed[VK_LEFT] )
-            smallx -= 1;
-       if( kb.isPressed[VK_RIGHT] )
-            smallx += 1;
-        if( kb.isPressed[VK_UP] )
-            smally -= 1;
-        if( kb.isPressed[VK_DOWN] )
-            smally += 1;
-
-        bigx += bigMove;
-
-        Sleep(20);
+        std::cout << timer.getTime( CG_MILISECONDS ) << std::endl;
 
     }
-
+*/
     return 0;
 }

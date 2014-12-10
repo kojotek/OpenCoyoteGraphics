@@ -4,3 +4,4 @@
 #include "OpenCG/cgWindow.h"
 #include "OpenCG/cgBitmap.h"
 #include "OpenCG/cgKeyboard.h"
+#include "OpenCG/cgTimer.h"
