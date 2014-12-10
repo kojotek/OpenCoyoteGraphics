@@ -74,6 +74,13 @@ void cgBitmap::addPixel( cgCoordi position, CHAR_INFO char_i )
 
 void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
 {
+    if ( cpPoint.x+size.width <= 0 ||
+         cpPoint.x >= destiny.size.width ||
+         cpPoint.y+size.height < 0 ||
+         cpPoint.y >= destiny.size.height )
+            return;
+
+
     int startx = std::max(0,cpPoint.x);
     int starty = std::max(0,cpPoint.y);
     int finx = std::min(cpPoint.x+size.width, destiny.size.width);

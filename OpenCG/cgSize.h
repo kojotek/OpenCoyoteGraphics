@@ -5,8 +5,8 @@
 class cgSize
 {
 public:
-    unsigned int width;
-    unsigned int height;
+    int width;
+    int height;
 
 
     cgSize( int w, int h ):

@@ -9,30 +9,6 @@ int main()
 
     cgKeyboard kb;
 
-    while(true)
-    {
-        kb.updateKeyboard();
-        if (kb.isUp[27])
-            std::cout << "puscilem escape" << std::endl;
-    }
-
-/*
-    std::bitset<8> b1;
-    b1[0] = 1;
-    b1[3] = 1;
-    b1[7] = 1;
-
-    for (int a(0); a<b1.size();a++)
-        std::cout<<b1[a];
-
-    std::bitset<8> b2;
-    b2 = ~b1;
-
-    std::cout<<std::endl;
-    for (int a(0); a<b2.size();a++)
-        std::cout<<b2[a];
-*/
-/*
     cgCoordi coordInt(3, 55);
     cgCoordf coordFloat(5.34f, 30.98f);
 
@@ -78,13 +54,15 @@ int main()
 
     int bigx=0; int bigy = 10;
     int bigMove = 1;
-    int smallx=70; int smally = 20;
-    int smallMove = -1;
+    int smallx=40; int smally = 20;
+    int smallMove = 0;
 
     mychar.Attributes = 1;
 
     while(true)
     {
+
+        kb.updateKeyboard();
 
         screen.fill(mychar);
 
@@ -98,17 +76,20 @@ int main()
         if( bigx <= 0 )
             bigMove = 1;
 
-        if( smallx+smallbmp.size.width >= cgWindow::size.width )
-            smallMove = -1;
-        if( smallx <= 0 )
-            smallMove = 1;
+        if( kb.isPressed[VK_LEFT] )
+            smallx -= 1;
+       if( kb.isPressed[VK_RIGHT] )
+            smallx += 1;
+        if( kb.isPressed[VK_UP] )
+            smally -= 1;
+        if( kb.isPressed[VK_DOWN] )
+            smally += 1;
 
         bigx += bigMove;
-        smallx += smallMove;
 
         Sleep(20);
 
     }
-*/
+
     return 0;
 }
