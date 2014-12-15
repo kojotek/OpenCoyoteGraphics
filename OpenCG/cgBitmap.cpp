@@ -2,6 +2,8 @@
 #include <iostream>
 #include <algorithm>
 #include "cgWindow.h"
+#include <vector>
+#include <tinyxml.h>
 
 cgBitmap::cgBitmap( cgSize s )
 {
@@ -18,7 +20,43 @@ cgBitmap::~cgBitmap()
 
 void cgBitmap::saveToFile( char* path )
 {
+    std::vector<TiXmlNode*> nodes;
 
+    TiXmlDocument* doc = new TiXmlDocument();
+    nodes.push_back( doc );
+    TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "UTF-8", "yes" );
+    nodes.push_back( declaration );
+
+    TiXmlElement * root = new TiXmlElement( "bitmap" );
+    nodes.push_back( root );
+        root->SetAttribute( "width", size.width );
+        root->SetAttribute( "height", size.height );
+
+
+    for ( int h(0); h < size.height; h++ )
+    {
+        TiXmlElement * line = new TiXmlElement( "line" );
+        nodes.push_back(line);
+
+        for (int w(0); w < size.width; w++ )
+        {
+            TiXmlElement * chr = new TiXmlElement( "char" );
+            nodes.push_back(chr);
+                chr->SetAttribute( "ascii", bufor[ w + h * size.width ].Char.AsciiChar );
+                chr->SetAttribute( "attribute", bufor[ w + h * size.width ].Attributes );
+            line->LinkEndChild( chr );
+        }
+        root->LinkEndChild( line );
+    }
+
+    doc->LinkEndChild( declaration );
+    doc->LinkEndChild( root );
+    doc->SaveFile( path );
+
+    for( int a( nodes.size()-1 ); a >= 0; a-- )
+    {
+        nodes[a]->Clear();
+    }
 }
 
 
