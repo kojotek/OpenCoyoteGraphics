@@ -5,17 +5,11 @@ int main()
 {
 
     cgWindow::init( cgSize(80,80), "Little Coyote enjoys console", cgSize(CG_FONT_SIZE_8X8) );
+    cgWindow::showCursor(false);
 
     cgTimer timer;
 
-    int i = 0;
 
-    while (1)
-    {
-        std::cout << timer.getTime( CG_MICROSECONDS ) << "   " << timer.getTime( CG_MILISECONDS ) << "   " << timer.getTime( CG_SECONDS ) << std::endl;
-    }
-
-/*
     cgKeyboard kb;
 
     cgCoordi coordInt(3, 55);
@@ -60,53 +54,53 @@ int main()
             bigbmp.bufor[x + y*bigbmp.size.width].Char.AsciiChar = rand()%256;
         }
 
+    mychar.Attributes = 255;
 
-    int bigx=0; int bigy = 10;
+    bigbmp.addRect(cgCoordi(27,27),cgSize(4,4), mychar);
+
+
+    int bigx=20; int bigy = 10;
     int bigMove = 1;
     int smallx=40; int smally = 20;
     int smallMove = 0;
 
     mychar.Attributes = 1;
 
-    cgTimer timer;
+//    cgTimer timer;
+
+    bigbmp.saveToFile("mojPlik.xml");
 
     while(true)
     {
 
         timer.reset( CG_MILISECONDS );
 
-        while( timer.getTime( CG_MILISECONDS ) < 16 )
-        {
-            kb.updateKeyboard();
+        kb.updateKeyboard();
 
-            screen.fill(mychar);
+        screen.fill(mychar);
 
-            bigbmp.copyToBitmap(screen, cgCoordi(bigx,bigy));
-            smallbmp.copyToBitmap(screen, cgCoordi(smallx,smally));
+        bigbmp.copyToBitmap(screen, cgCoordi(bigx,bigy));
+        smallbmp.copyToBitmap(screen, cgCoordi(smallx,smally));
 
-            if( bigx+bigbmp.size.width >= cgWindow::size.width )
-                bigMove = -1;
-            if( bigx <= 0 )
-                bigMove = 1;
+        if( bigx+bigbmp.size.width >= cgWindow::size.width )
+            bigMove = -1;
+        if( bigx <= 0 )
+            bigMove = 1;
 
-            if( kb.isPressed[VK_LEFT] )
-                smallx -= 1;
-           if( kb.isPressed[VK_RIGHT] )
-                smallx += 1;
-            if( kb.isPressed[VK_UP] )
-                smally -= 1;
-            if( kb.isPressed[VK_DOWN] )
-                smally += 1;
+        if( kb.isPressed[CG_KEY_LEFT] )
+            smallx -= 1;
+       if( kb.isPressed[VK_RIGHT] )
+            smallx += 1;
+        if( kb.isPressed[VK_UP] )
+            smally -= 1;
+        if( kb.isPressed[VK_DOWN] )
+            smally += 1;
 
-            bigx += bigMove;
+        //bigx += bigMove;
 
-        }
-
-        screen.print( cgCoordi(0,0) );
-
-        std::cout << timer.getTime( CG_MILISECONDS ) << std::endl;
-
+        while( timer.getTime( CG_MILISECONDS ) < 50 )
+            screen.print( cgCoordi(0,0) );
     }
-*/
+
     return 0;
 }

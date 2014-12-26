@@ -36,6 +36,7 @@ public:
     static void resize( cgSize windowSize );
     static void rename( char* name );
     static void resizeFont( cgSize fontSize );
+    static void showCursor( bool state );
 };
 
 

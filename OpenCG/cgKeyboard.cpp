@@ -2,14 +2,22 @@
 #include "cgWindow.h"
 #include <windows.h>
 
+
+cgKeyboard::cgKeyboard() :
+    isPressed(_isPressed),
+    isDown(_isDown),
+    isUp(_isUp)
+    {}
+
+
 void cgKeyboard::updateKeyboard()
 {
-    lastState = isPressed;
-    isPressed.reset();
+    _lastState = _isPressed;
+    _isPressed.reset();
 
     for (int i(0); i<256; i++)
-        isPressed[i] = ( GetKeyState(i) & 0x80 );
+        _isPressed[i] = ( GetKeyState(i) & 0x80 );
 
-    isUp = ( (~isPressed) & lastState );
-    isDown = ( isPressed & (~lastState) );
+    _isUp = ( (~_isPressed) & _lastState );
+    _isDown = ( _isPressed & (~_lastState) );
 }

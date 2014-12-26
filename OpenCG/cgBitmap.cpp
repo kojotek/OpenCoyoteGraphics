@@ -78,22 +78,55 @@ void cgBitmap::fill( CHAR_INFO char_i )
 
 void cgBitmap::addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
 {
+    int ax( std::max(0,rPosition.x) );
+    int ay( std::max(0,rPosition.y) );
+    int ix( std::min(rPosition.x+rSize.width, size.width) );
+    int iy( std::min(rPosition.y+rSize.height, size.height) );
+    int tempj;
+
+
+    if ( ay == rPosition.y )
+        for ( int i(ax); i<ix; i++ )
+        {
+            bufor[ ay*size.width + i ] = char_i;
+        }
+
+
+    if ( iy == rPosition.y+rSize.height )
+        for ( int i(ax); i<ix; i++ )
+        {
+            bufor[ (iy-1)*size.width + i ] = char_i;
+        }
+
+
+    if ( ax == rPosition.x )
+        for ( int i(ay); i<iy; i++ )
+        {
+            bufor[ i*size.width + ax ] = char_i;
+        }
+
+
+    if ( ix == rPosition.y+rSize.height )
+        for ( int i(ay); i<iy; i++ )
+        {
+            bufor[ i*size.width + (ix-1) ] = char_i;
+        }
 
 }
 
 
 void cgBitmap::addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
 {
-    rPosition.x = std::max(0,rPosition.x);
-    rPosition.y = std::max(0,rPosition.y);
+    int ax = std::max(0,rPosition.x);
+    int ay = std::max(0,rPosition.y);
     int ix = std::min(rPosition.x+rSize.width, size.width);
     int iy = std::min(rPosition.y+rSize.height, size.height);
     int tempj;
 
-    for ( int j(rPosition.y); j<iy; j++ )
+    for ( int j(ay); j<iy; j++ )
     {
         tempj = j*size.width;
-        for ( int i(rPosition.x); i<ix; i++ )
+        for ( int i(ax); i<ix; i++ )
         {
             bufor[i+tempj] = char_i;
         }

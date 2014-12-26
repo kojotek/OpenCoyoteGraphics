@@ -60,3 +60,12 @@ void cgWindow::resizeFont( cgSize font )
     wcscpy(cfi.FaceName, L"Terminal");
     SetCurrentConsoleFontEx(cgWindow::outputHandle, FALSE, &cfi);
 }
+
+
+void cgWindow::showCursor( bool state )
+{
+    CONSOLE_CURSOR_INFO cci;
+    GetConsoleCursorInfo( outputHandle, &cci );
+    cci.bVisible = state;
+    SetConsoleCursorInfo( outputHandle, &cci );
+}

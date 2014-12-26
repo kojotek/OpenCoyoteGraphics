@@ -6,12 +6,16 @@
 class cgKeyboard
 {
 private:
-    std::bitset<256> lastState;
+    std::bitset<256> _lastState;
+    std::bitset<256> _isPressed;
+    std::bitset<256> _isDown;
+    std::bitset<256> _isUp;
 
 public:
-    std::bitset<256> isPressed;
-    std::bitset<256> isDown;
-    std::bitset<256> isUp;
+    const std::bitset<256>& isPressed;
+    const std::bitset<256>& isDown;
+    const std::bitset<256>& isUp;
+    cgKeyboard();
     void updateKeyboard();
 };
 
