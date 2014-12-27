@@ -89,7 +89,7 @@
 #define CG_KEY_LEFT_SHIFT                       0xA0
 #define CG_KEY_LEFT_WINDOWS                     0x5B
 #define CG_KEY_PAGE_DOWN                        0x22
-#define CG_KEY_NUM_LOCK                          0x90
+#define CG_KEY_NUM_LOCK                         0x90
 #define CG_KEY_PAGE_UP                          0x21
 #define CG_KEY_RIGHT_CONTROL                    0xA3
 #define CG_KEY_RIGHT_ALT                        0xA5

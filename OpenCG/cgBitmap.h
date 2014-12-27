@@ -1,29 +1,30 @@
 #ifndef _CGBITMAP_
 #define _CGBITMAP_
 
-#define CG_TRANSPARENT 0
-
 #include "cgSize.h"
-#include "cgCoord.h"
+#include "cgVector.h"
+#include "cgPixelEdit.h"
 #include <windows.h>
+
+#define CG_TRANSPARENT_CHAR     0
 
 class cgBitmap
 {
 public:
     cgSize size;
-    CHAR_INFO* bufor;
+    cgPixel* bufor;
 
     cgBitmap( cgSize s );
     ~cgBitmap();
 
     void saveToFile( char* path );
     void readFromFile( char* path );
-    void fill( CHAR_INFO );
-    void addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i );
-    void addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i );
-    void addPixel( cgCoordi position, CHAR_INFO char_i );
-    void copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint );
-    void print( cgCoordi cpPoint );
+    void fill( cgPixel );
+    void addRect( cgVectorInt rPosition, cgSize rSize, cgPixel char_i );
+    void addFilledRect( cgVectorInt rPosition, cgSize rSize, cgPixel char_i );
+    void addPixel( cgVectorInt position, cgPixel char_i );
+    void copyToBitmap( cgBitmap &destiny, cgVectorInt cpPoint );
+    void print( cgVectorInt cpPoint );
 };
 
 

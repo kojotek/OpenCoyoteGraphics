@@ -1,6 +1,7 @@
 #include "cgKeyboard.h"
 #include "cgWindow.h"
 #include <windows.h>
+#include "cgKeyNames.h"
 
 
 cgKeyboard::cgKeyboard() :
@@ -15,9 +16,41 @@ void cgKeyboard::updateKeyboard()
     _lastState = _isPressed;
     _isPressed.reset();
 
-    for (int i(0); i<256; i++)
-        _isPressed[i] = ( GetKeyState(i) & 0x80 );
+    for (int i(0); i<101; i++)
+    {
+        _isPressed[ _keyTable[i] ] = ( GetKeyState( _keyTable[i] ) & 0x80 );
+    }
 
     _isUp = ( (~_isPressed) & _lastState );
     _isDown = ( _isPressed & (~_lastState) );
 }
+
+
+int _keyTableData[] =
+{
+    CG_KEY_0, CG_KEY_1, CG_KEY_2, CG_KEY_3, CG_KEY_4, CG_KEY_5, CG_KEY_6,
+    CG_KEY_7, CG_KEY_8, CG_KEY_9, CG_KEY_A, CG_KEY_B, CG_KEY_BACKSPACE,
+    CG_KEY_C, CG_KEY_CAPS_LOCK, CG_KEY_COLON_SEMICOLON, CG_KEY_D, CG_KEY_DELETE,
+    CG_KEY_DOWN, CG_KEY_E, CG_KEY_END, CG_KEY_ENTER, CG_KEY_ESCAPE, CG_KEY_F,
+    CG_KEY_F1, CG_KEY_F10, CG_KEY_F11, CG_KEY_F12, CG_KEY_F2, CG_KEY_F3,
+    CG_KEY_F4, CG_KEY_F5, CG_KEY_F6, CG_KEY_F7, CG_KEY_F8, CG_KEY_F9,
+    CG_KEY_G, CG_KEY_GREATER_PERIOD, CG_KEY_H, CG_KEY_HOME, CG_KEY_I,
+    CG_KEY_INSERT, CG_KEY_J, CG_KEY_K, CG_KEY_L, CG_KEY_LEFT, CG_KEY_LEFT_ALT,
+    CG_KEY_LEFT_CONTROL, CG_KEY_LEFT_SHIFT, CG_KEY_LEFT_SQUARE_CURLY_BRACKET,
+    CG_KEY_LEFT_WINDOWS, CG_KEY_LESS_COMMA, CG_KEY_M, CG_KEY_MINUS_LOWBAR,
+    CG_KEY_N, CG_KEY_NUM_LOCK, CG_KEY_NUMPAD_0, CG_KEY_NUMPAD_1, CG_KEY_NUMPAD_2,
+    CG_KEY_NUMPAD_3, CG_KEY_NUMPAD_4, CG_KEY_NUMPAD_5, CG_KEY_NUMPAD_6,
+    CG_KEY_NUMPAD_7, CG_KEY_NUMPAD_8, CG_KEY_NUMPAD_9, CG_KEY_NUMPAD_ASTERISK,
+    CG_KEY_NUMPAD_MINUS, CG_KEY_NUMPAD_PERIOD, CG_KEY_NUMPAD_PLUS, CG_KEY_NUMPAD_SLASH,
+    CG_KEY_O, CG_KEY_P, CG_KEY_PAGE_DOWN, CG_KEY_PAGE_UP, CG_KEY_PLUS_EQUAL,
+    CG_KEY_PRINT_SCREEN, CG_KEY_Q, CG_KEY_QUEST_MARK_SLASH, CG_KEY_QUOT_MARK_APOSTROPHE,
+    CG_KEY_R, CG_KEY_RIGHT, CG_KEY_RIGHT_ALT, CG_KEY_RIGHT_CONTROL, CG_KEY_RIGHT_SHIFT,
+    CG_KEY_RIGHT_SQUARE_CURLY_BRACKET, CG_KEY_RIGHT_WINDOWS, CG_KEY_S,
+    CG_KEY_SCROLL_LOCK, CG_KEY_SPACEBAR, CG_KEY_T, CG_KEY_TAB, CG_KEY_TILDE,
+    CG_KEY_U, CG_KEY_UP, CG_KEY_V, CG_KEY_VERTICAL_BAR_BACKSLASH, CG_KEY_W, CG_KEY_X,
+    CG_KEY_Y, CG_KEY_Z
+};
+
+
+int* cgKeyboard::_keyTable = _keyTableData;
+

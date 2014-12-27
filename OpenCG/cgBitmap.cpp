@@ -76,7 +76,7 @@ void cgBitmap::fill( CHAR_INFO char_i )
 }
 
 
-void cgBitmap::addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
+void cgBitmap::addRect( cgVectorInt rPosition, cgSize rSize, CHAR_INFO char_i )
 {
     int ax( std::max(0,rPosition.x) );
     int ay( std::max(0,rPosition.y) );
@@ -115,7 +115,7 @@ void cgBitmap::addRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
 }
 
 
-void cgBitmap::addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i )
+void cgBitmap::addFilledRect( cgVectorInt rPosition, cgSize rSize, CHAR_INFO char_i )
 {
     int ax = std::max(0,rPosition.x);
     int ay = std::max(0,rPosition.y);
@@ -134,7 +134,7 @@ void cgBitmap::addFilledRect( cgCoordi rPosition, cgSize rSize, CHAR_INFO char_i
 }
 
 
-void cgBitmap::addPixel( cgCoordi position, CHAR_INFO char_i )
+void cgBitmap::addPixel( cgVectorInt position, CHAR_INFO char_i )
 {
     if ( position.x < size.width && position.x >= 0 && position.y < size.height && position.y >= 0 )
     {
@@ -143,13 +143,13 @@ void cgBitmap::addPixel( cgCoordi position, CHAR_INFO char_i )
 }
 
 
-void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
+void cgBitmap::copyToBitmap( cgBitmap &destiny, cgVectorInt cpPoint )
 {
     if ( cpPoint.x+size.width <= 0 ||
          cpPoint.x >= destiny.size.width ||
          cpPoint.y+size.height < 0 ||
          cpPoint.y >= destiny.size.height )
-            return;
+    return;
 
 
     int startx = std::max(0,cpPoint.x);
@@ -171,7 +171,7 @@ void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
             copyto = i+copytoY;
             copyfrom = i-cpPoint.x + copyfromY;
 
-            if( bufor[copyfrom].Attributes != CG_TRANSPARENT )
+            if( bufor[copyfrom].Char.AsciiChar != CG_TRANSPARENT_CHAR )
             {
                 destiny.bufor[ copyto ] = bufor[ copyfrom ];
             }
@@ -180,7 +180,7 @@ void cgBitmap::copyToBitmap( cgBitmap &destiny, cgCoordi cpPoint )
 }
 
 
-void cgBitmap::print( cgCoordi cpPoint )
+void cgBitmap::print( cgVectorInt cpPoint )
 {
     COORD charBufSize = {cgWindow::size.width, cgWindow::size.height};
     COORD characterPos = {0,0};
