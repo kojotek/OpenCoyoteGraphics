@@ -29,7 +29,7 @@ typedef CHAR_INFO cgPixel;
 class cgPixelEdit
 {
 public:
-    static cgPixel createPixel( CHAR asciiChar, WORD foregroundColor, WORD backgroundColor );
+    static cgPixel createPixel( CHAR asciiChar, WORD backgroundColor, WORD foregroundColor );
     static cgPixel createPixel( WORD color );
     static void setForegroundColor( cgPixel& charInfo, WORD foregroundColor );
     static void setBackgroundColor( cgPixel& charInfo, WORD backgroundColor );

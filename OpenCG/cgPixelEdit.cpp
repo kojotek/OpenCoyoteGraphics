@@ -1,7 +1,7 @@
 #include "cgPixelEdit.h"
 
 
-cgPixel cgPixelEdit::createPixel( CHAR asciiChar, WORD foregroundColor, WORD backgroundColor )
+cgPixel cgPixelEdit::createPixel( CHAR asciiChar, WORD backgroundColor, WORD foregroundColor )
 {
     cgPixel pixel;
     pixel.Char.AsciiChar = asciiChar;

@@ -17,8 +17,8 @@ public:
     cgBitmap( cgSize s );
     ~cgBitmap();
 
-    void saveToFile( char* path );
-    void readFromFile( char* path );
+    bool saveToFile( char* path );
+    bool readFromFile( char* path );
     void fill( cgPixel );
     void addRect( cgVectorInt rPosition, cgSize rSize, cgPixel char_i );
     void addFilledRect( cgVectorInt rPosition, cgSize rSize, cgPixel char_i );

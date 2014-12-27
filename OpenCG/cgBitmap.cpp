@@ -3,12 +3,14 @@
 #include <algorithm>
 #include "cgWindow.h"
 #include <vector>
+#include <string>
 #include <tinyxml.h>
+
 
 cgBitmap::cgBitmap( cgSize s )
 {
     size = s;
-    bufor = new CHAR_INFO[ size.width * size.height ];
+    bufor = new cgPixel[ size.width * size.height ];
 }
 
 
@@ -18,17 +20,13 @@ cgBitmap::~cgBitmap()
 }
 
 
-void cgBitmap::saveToFile( char* path )
+bool cgBitmap::saveToFile( char* path )
 {
-    std::vector<TiXmlNode*> nodes;
 
     TiXmlDocument* doc = new TiXmlDocument();
-    nodes.push_back( doc );
     TiXmlDeclaration* declaration = new TiXmlDeclaration( "1.0", "UTF-8", "yes" );
-    nodes.push_back( declaration );
 
     TiXmlElement * root = new TiXmlElement( "bitmap" );
-    nodes.push_back( root );
         root->SetAttribute( "width", size.width );
         root->SetAttribute( "height", size.height );
 
@@ -36,12 +34,10 @@ void cgBitmap::saveToFile( char* path )
     for ( int h(0); h < size.height; h++ )
     {
         TiXmlElement * line = new TiXmlElement( "line" );
-        nodes.push_back(line);
 
         for (int w(0); w < size.width; w++ )
         {
             TiXmlElement * chr = new TiXmlElement( "char" );
-            nodes.push_back(chr);
                 chr->SetAttribute( "ascii", bufor[ w + h * size.width ].Char.AsciiChar );
                 chr->SetAttribute( "attribute", bufor[ w + h * size.width ].Attributes );
             line->LinkEndChild( chr );
@@ -51,17 +47,76 @@ void cgBitmap::saveToFile( char* path )
 
     doc->LinkEndChild( declaration );
     doc->LinkEndChild( root );
-    doc->SaveFile( path );
 
-    for( int a( nodes.size()-1 ); a >= 0; a-- )
+    bool result = false;
+    if( doc->SaveFile( path ) )
     {
-        nodes[a]->Clear();
+        result = true;
     }
+
+    doc->Clear();
+
+    return result;
+
 }
 
 
-void cgBitmap::readFromFile( char* path )
+bool cgBitmap::readFromFile( char* path )
 {
+    delete[] bufor;
+
+    TiXmlDocument doc;
+    if( !doc.LoadFile(path) )
+    {
+        return false;
+    }
+    else
+    {
+
+        TiXmlElement* root = doc.FirstChildElement();
+        if(root == NULL)
+        {
+            doc.Clear();
+            return false;
+        }
+
+        root->Attribute( "width", &size.width );
+        root->Attribute( "height", &size.height );
+        bufor = new cgPixel[ size.width * size.height ];
+
+
+
+        int position = 0;
+
+        std::string elementName;
+        for ( TiXmlElement *iter = root->FirstChildElement(); iter != NULL; iter = iter->NextSiblingElement() )
+        {
+            elementName = iter->Value();
+            if( elementName == "line" )
+            {
+                for ( TiXmlElement *iter2 = iter->FirstChildElement(); iter2 != NULL; iter2 = iter2->NextSiblingElement() )
+                {
+                    elementName = iter2->Value();
+                    if( elementName == "char" )
+                    {
+                        int ascii;
+                        int attrib;
+
+                        iter2->Attribute("ascii", &ascii);
+                        iter2->Attribute("attribute", &attrib);
+
+                        bufor[position].Char.AsciiChar = ascii;
+                        bufor[position].Attributes = attrib ;
+
+                        position++;
+                    }
+                }
+            }
+        }
+
+        doc.Clear();
+
+    }
 
 }
 
