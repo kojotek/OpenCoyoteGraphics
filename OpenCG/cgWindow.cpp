@@ -4,12 +4,12 @@
 
 HANDLE cgWindow::inputHandle;
 HANDLE cgWindow::outputHandle;
-cgSize cgWindow::size;
+cgSizeInt cgWindow::size;
 char* cgWindow::name;
-cgSize cgWindow::fontSize;
+cgSizeInt cgWindow::fontSize;
 
 
-void cgWindow::init( cgSize s, char* n, cgSize f )
+void cgWindow::init( cgSizeInt s, char* n, cgSizeInt f )
 {
     inputHandle = GetStdHandle(STD_INPUT_HANDLE);
     outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -24,12 +24,12 @@ void cgWindow::init()
     inputHandle = GetStdHandle(STD_INPUT_HANDLE);
     outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     resizeFont(CG_FONT_SIZE_8X12);
-    resize(cgSize(20,20));
+    resize(cgSizeInt(20,20));
     rename("Coyote Console");
 }
 
 
-void cgWindow::resize( cgSize s )
+void cgWindow::resize( cgSizeInt s )
 {
     size = s;
 
@@ -49,7 +49,7 @@ void cgWindow::rename( char* newName )
 }
 
 
-void cgWindow::resizeFont( cgSize font )
+void cgWindow::resizeFont( cgSizeInt font )
 {
     fontSize = font;
     CONSOLE_FONT_INFOEX cfi;
