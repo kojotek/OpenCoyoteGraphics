@@ -16,11 +16,10 @@
 class cgBitmap
 {
 private:
-    //cgSizeInt& _size;
-
-public:
     cgSizeInt size;
     cgPixel* bufor;
+
+public:
 
     cgBitmap();
     cgBitmap( const cgBitmap& bmp );
@@ -28,15 +27,17 @@ public:
     cgBitmap( char* path );
     ~cgBitmap();
 
+    void setSize( cgSizeInt newSize, cgPixel color );
+    cgSizeInt getSize();
     bool saveToFile( char* path );
     bool loadFromFile( char* path );
     template <typename T> bool contain( cgVector<T> point );
     void fill( cgPixel );
-    void addRectByPoints( cgVectorInt a, cgVectorInt b, cgPixel char_i, bool filled );
-    void addRectByOrigin( cgVectorInt rOrigin, cgSizeInt rSize, cgPixel char_i, bool filled );
-    void addLineByPoints( cgVectorInt a, cgVectorInt b, cgPixel char_i );
-    void addLineByOrigin( cgVectorInt origin, cgVectorInt vector, cgPixel char_i );
-    void addPixel( cgVectorInt position, cgPixel char_i );
+    void addRectByPoints( cgVectorInt a, cgVectorInt b, cgPixel pixel, bool filled );
+    void addRectByOrigin( cgVectorInt rOrigin, cgSizeInt rSize, cgPixel pixel, bool filled );
+    void addLineByPoints( cgVectorInt a, cgVectorInt b, cgPixel pixel );
+    void addLineByOrigin( cgVectorInt origin, cgVectorInt vector, cgPixel pixel );
+    void addPixel( cgVectorInt position, cgPixel pixel );
     void copyToBitmap( cgBitmap &destination, cgVectorInt cpPoint );
     cgBitmap getPartByPoints(cgVectorInt a, cgVectorInt b );
     cgBitmap getPartByOrigin(cgVectorInt rOrigin, cgSizeInt rSize );
@@ -48,7 +49,7 @@ public:
     cgBitmap& operator = ( cgBitmap &bmp )
     {
         delete[] bufor;
-        size = bmp.size;
+        size = bmp.getSize();
         if ( size.width * size.height > 0 )
         {
             bufor = new cgPixel[ size.width * size.height ];

@@ -60,6 +60,48 @@ cgBitmap::~cgBitmap()
 
 
 
+void cgBitmap::setSize( cgSizeInt newSize, cgPixel color )
+{
+
+    if( newSize.width > 0 && newSize.height > 0 )
+    {
+        cgPixel* newBufor = new cgPixel[ newSize.width * newSize.height ];
+
+        for (int i(0); i< (newSize.width*newSize.height); i++)
+            newBufor[i] = color;
+
+        int tempW = std::min(newSize.width,size.width);
+        int tempH = std::min(newSize.height,size.height);
+
+        for (int y(0); y<tempH; y++)
+            for (int x(0); x<tempW; x++)
+            {
+                newBufor[ x + y*newSize.width ] = bufor[ x + y*size.width ];
+            }
+
+
+        size = newSize;
+        delete[] bufor;
+        bufor = newBufor;
+    }
+
+    else
+    {
+        size = cgSizeInt(0,0);
+        delete[] bufor;
+        bufor = NULL;
+    }
+}
+
+
+
+inline cgSizeInt cgBitmap::getSize()
+{
+    return size;
+}
+
+
+
 bool cgBitmap::saveToFile( char* path )
 {
 
@@ -304,9 +346,9 @@ void cgBitmap::copyToBitmap( cgBitmap &destination, cgVectorInt cpPoint )
 
 void cgBitmap::print( cgVectorInt cpPoint )
 {
-    COORD charBufSize = {cgWindow::size.width, cgWindow::size.height};
+    COORD charBufSize = {size.width, size.height};
     COORD characterPos = {0,0};
-    SMALL_RECT writeArea = {cpPoint.x, cpPoint.y, cpPoint.x+cgWindow::size.width-1, cpPoint.y+cgWindow::size.height-1};
+    SMALL_RECT writeArea = {cpPoint.x, cpPoint.y, cpPoint.x+size.width-1, size.height-1};
     WriteConsoleOutputA(cgWindow::outputHandle, bufor, charBufSize, characterPos, &writeArea);
 }
 
@@ -592,8 +634,6 @@ void cgBitmap::rotate( unsigned direction, int rotations )
             bufor = temp;
             break;
         }
-
-
 
     }
 }

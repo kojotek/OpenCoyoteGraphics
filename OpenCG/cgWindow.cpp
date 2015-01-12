@@ -13,9 +13,9 @@ void cgWindow::init( cgSizeInt s, char* n, cgSizeInt f )
 {
     inputHandle = GetStdHandle(STD_INPUT_HANDLE);
     outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    resizeFont(f);
-    resize(s);
-    rename(n);
+    setFontSize(f);
+    setSize(s);
+    setName(n);
 }
 
 
@@ -23,13 +23,13 @@ void cgWindow::init()
 {
     inputHandle = GetStdHandle(STD_INPUT_HANDLE);
     outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    resizeFont(CG_FONT_SIZE_8X12);
-    resize(cgSizeInt(20,20));
-    rename("Coyote Console");
+    setFontSize(CG_FONT_SIZE_8X12);
+    setSize(cgSizeInt(20,20));
+    setName("Coyote Console");
 }
 
 
-void cgWindow::resize( cgSizeInt s )
+void cgWindow::setSize( cgSizeInt s )
 {
     size = s;
 
@@ -43,13 +43,13 @@ void cgWindow::resize( cgSizeInt s )
 }
 
 
-void cgWindow::rename( char* newName )
+void cgWindow::setName( char* newName )
 {
     SetConsoleTitle( TEXT( name = newName ) );
 }
 
 
-void cgWindow::resizeFont( cgSizeInt font )
+void cgWindow::setFontSize( cgSizeInt font )
 {
     fontSize = font;
     CONSOLE_FONT_INFOEX cfi;
@@ -62,6 +62,7 @@ void cgWindow::resizeFont( cgSizeInt font )
 }
 
 
+
 void cgWindow::showCursor( bool state )
 {
     CONSOLE_CURSOR_INFO cci;
@@ -69,3 +70,4 @@ void cgWindow::showCursor( bool state )
     cci.bVisible = state;
     SetConsoleCursorInfo( outputHandle, &cci );
 }
+

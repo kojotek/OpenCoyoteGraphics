@@ -22,21 +22,27 @@
 
 class cgWindow
 {
-public:
+private:
     static cgSizeInt size;
     static char* name;
     static cgSizeInt fontSize;
 
 public:
+
     static HANDLE inputHandle;
     static HANDLE outputHandle;
 
     static void init( cgSizeInt windowSize, char* name, cgSizeInt fontSize );
     static void init();
-    static void resize( cgSizeInt windowSize );
-    static void rename( char* name );
-    static void resizeFont( cgSizeInt fontSize );
+    static void setSize( cgSizeInt windowSize );
+    static void setName( char* name );
+    static void setFontSize( cgSizeInt fontSize );
     static void showCursor( bool state );
+
+
+    inline static cgSizeInt getSize()               { return size; }
+    inline static char* getName()                   { return name; }
+    inline static cgSizeInt getFontSize()           { return fontSize; }
 };
 
 

@@ -13,10 +13,11 @@ int main()
     cgTimer timer;
     cgKeyboard kb;
 
-    cgBitmap screen( cgSizeInt(cgWindow::size.width, cgWindow::size.height) );
-    cgBitmap screen2( cgSizeInt(cgWindow::size.width, cgWindow::size.height) );
-    cgBitmap screen3( cgSizeInt(cgWindow::size.width, cgWindow::size.height) );
-    cgBitmap screen4( cgSizeInt(cgWindow::size.width, cgWindow::size.height) );
+    cgBitmap screen( cgSizeInt(cgWindow::getSize().width, cgWindow::getSize().height) );
+    cgBitmap screen2( cgSizeInt(cgWindow::getSize().width, cgWindow::getSize().height) );
+    cgBitmap screen3( cgSizeInt(cgWindow::getSize().width, cgWindow::getSize().height) );
+    cgBitmap screen4( cgSizeInt(cgWindow::getSize().width, cgWindow::getSize().height) );
+
 
     int ax,bx,ay,by;
     ax=2;
@@ -89,9 +90,16 @@ int main()
     bool b1 = 1;
     int counter2 = 0;
     bool b2 = 0;
+    int licznik = 0;
+
+    int ms = 0;
+    char msc[20];
 
     while( WORK )
     {
+        //screen.setSize( cgWindow::getSize(), cgPixelEdit::createPixel(CG_COLOR_BLUE));
+
+
         if ( b1 )   counter++;
         else        counter--;
 
@@ -102,7 +110,7 @@ int main()
 
         if( counter2 > 110 || counter2 < -37) b2 = !b2;
 
-        timer.reset( CG_MILISECONDS );
+
 
         kb.updateKeyboard();
 
@@ -112,7 +120,7 @@ int main()
         a1 += 0.1;
         a2 == 0.1;
 
-        if(k>1)
+        if(k>3)
         {
             m1.rotate( CG_RIGHT, 1 );
             m2.rotate( CG_LEFT, 1 );
@@ -141,8 +149,8 @@ int main()
         if( px > 20 )
             px = 1;
 
-        for (int x(-20); x<cgWindow::size.width; x+=20 )
-            for (int y(-20); y<cgWindow::size.height; y+=20 )
+        for (int x(-20); x<cgWindow::getSize().width; x+=20 )
+            for (int y(-20); y<cgWindow::getSize().height; y+=20 )
             {
                 m1.copyToBitmap( screen, cgVectorInt(x+px,y+px) );
                 m2.copyToBitmap( screen, cgVectorInt(x+10+px,y+px) );
@@ -182,9 +190,18 @@ int main()
 
         screen.addRectByPoints( cgVectorInt(5,5), cgVectorInt(73,73), cgPixelEdit::createPixel( CG_COLOR_GREEN ), false );
 
+        screen.setSize(cgSizeInt(50,50), cgPixelEdit::createPixel(CG_COLOR_BLUE));
 
-        while( timer.getTime( CG_MILISECONDS ) < 16 )
+
+        while( ms < 16 )
+        {
             screen.print( cgVectorInt(0,0) );
+            ms = timer.getTime();
+        }
+
+        ms = 0;
+        timer.reset();
+
     }
 
     return 0;

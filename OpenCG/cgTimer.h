@@ -15,8 +15,8 @@ private:
 
 public:
     cgTimer();
-    unsigned long int reset( int unit );
-    unsigned long int getTime( int unit );
+    unsigned long int reset( int unit = CG_MILISECONDS );
+    unsigned long int getTime( int unit = CG_MILISECONDS );
 
 };
 
