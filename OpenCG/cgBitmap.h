@@ -8,6 +8,8 @@
 #include <iostream>
 
 #define CG_TRANSPARENT_CHAR     0
+#define CG_FILLED       1
+#define CG_EMPTY        0
 #define CG_VERTICAL     0
 #define CG_HORIZONTAL   1
 #define CG_LEFT         -1
