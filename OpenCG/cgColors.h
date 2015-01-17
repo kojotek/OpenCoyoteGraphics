@@ -1,8 +1,3 @@
-#ifndef _CGPIXELEDIT_
-#define _CGPIXELEDIT_
-
-#include <windows.h>
-
 #define CG_COLOR_BLACK          0
 #define CG_COLOR_BLUE           1
 #define CG_COLOR_GREEN          2
@@ -20,20 +15,3 @@
 #define CG_COLOR_LIGHT_MAGENTA  13
 #define CG_COLOR_LIGHT_YELLOW   14
 #define CG_COLOR_WHITE          15
-
-
-
-typedef CHAR_INFO cgPixel;
-
-
-class cgPixelEdit
-{
-public:
-    static cgPixel createPixel( CHAR asciiChar, WORD backgroundColor, WORD foregroundColor );
-    static cgPixel createPixel( WORD color );
-    static void setForegroundColor( cgPixel& charInfo, WORD foregroundColor );
-    static void setBackgroundColor( cgPixel& charInfo, WORD backgroundColor );
-    static void setAsciiChar( cgPixel& charInfo, CHAR asciiChar );
-};
-
-#endif // _CGPIXELEDIT_

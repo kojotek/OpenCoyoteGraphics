@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include "cgWindow.h"
+#include "cgPixel.h"
 #include <vector>
 #include <string>
 #include <tinyxml.h>
@@ -22,7 +23,7 @@ cgBitmap::cgBitmap( const cgBitmap& bmp )
     bufor = NULL;
     if ( size.width * size.height > 0 )
     {
-        bufor = new cgPixel[ size.width * size.height ];
+        bufor = new CHAR_INFO[ size.width * size.height ];
         for (int i(0); i<(size.width * size.height); i++)
         {
             bufor[i] = bmp.bufor[i];
@@ -38,7 +39,7 @@ cgBitmap::cgBitmap( cgSizeInt s )
     bufor = NULL;
     if ( size.width * size.height > 0 )
     {
-        bufor = new cgPixel[ size.width * size.height ];
+        bufor = new CHAR_INFO[ size.width * size.height ];
     }
 }
 
@@ -65,10 +66,10 @@ void cgBitmap::setSize( cgSizeInt newSize, cgPixel color )
 
     if( newSize.width > 0 && newSize.height > 0 )
     {
-        cgPixel* newBufor = new cgPixel[ newSize.width * newSize.height ];
+        CHAR_INFO* newBufor = new CHAR_INFO[ newSize.width * newSize.height ];
 
         for (int i(0); i< (newSize.width*newSize.height); i++)
-            newBufor[i] = color;
+            newBufor[i] = color.getCharInfo();
 
         int tempW = std::min(newSize.width,size.width);
         int tempH = std::min(newSize.height,size.height);
@@ -170,7 +171,7 @@ bool cgBitmap::loadFromFile( char* path )
 
         root->Attribute( "width", &size.width );
         root->Attribute( "height", &size.height );
-        bufor = new cgPixel[ size.width * size.height ];
+        bufor = new CHAR_INFO[ size.width * size.height ];
 
 
         int position = 0;
@@ -213,9 +214,10 @@ bool cgBitmap::loadFromFile( char* path )
 void cgBitmap::fill( cgPixel char_i )
 {
     int a( size.width * size.height );
+    CHAR_INFO newchar = char_i.getCharInfo();
     for( int i(0); i<a; i++ )
     {
-        bufor[i] = char_i;
+        bufor[i] = newchar;
     }
 }
 
@@ -249,6 +251,7 @@ void cgBitmap::addRectByPoints( cgVectorInt a, cgVectorInt b, cgPixel char_i, bo
     int bx( std::min(b.x, size.width) );
     int by( std::min(b.y, size.height) );
     int tempj;
+    CHAR_INFO newchar = char_i.getCharInfo();
 
     if(filled)
     {
@@ -257,7 +260,7 @@ void cgBitmap::addRectByPoints( cgVectorInt a, cgVectorInt b, cgPixel char_i, bo
         {
             tempj = j*size.width;
             for ( int i(ax); i<bx; i++ )
-                bufor[i+tempj] = char_i;
+                bufor[i+tempj] = newchar;
         }
 
     }
@@ -266,19 +269,19 @@ void cgBitmap::addRectByPoints( cgVectorInt a, cgVectorInt b, cgPixel char_i, bo
 
         if ( ay == a.y )
             for ( int i(ax); i<bx; i++ )
-                bufor[ ay*size.width + i ] = char_i;
+                bufor[ ay*size.width + i ] = newchar;
 
         if (by == b.y )
             for ( int i(ax); i<bx; i++ )
-                bufor[ (by-1)*size.width + i ] = char_i;
+                bufor[ (by-1)*size.width + i ] = newchar;
 
         if ( ax == a.x )
             for ( int i(ay); i<by; i++ )
-                bufor[ i*size.width + ax ] = char_i;
+                bufor[ i*size.width + ax ] = newchar;
 
         if ( bx == b.x )
             for ( int i(ay); i<by; i++ )
-                bufor[ i*size.width + (bx-1) ] = char_i;
+                bufor[ i*size.width + (bx-1) ] = newchar;
 
     }
 
@@ -300,7 +303,7 @@ void cgBitmap::addPixel( cgVectorInt position, cgPixel char_i )
 {
     if ( contain(position) )
     {
-        bufor[position.x + position.y*size.width ] = char_i;
+        bufor[position.x + position.y*size.width ] = char_i.getCharInfo();
     }
 }
 
@@ -455,6 +458,7 @@ void cgBitmap::addLineByPoints( cgVectorInt pointa, cgVectorInt pointb, cgPixel 
     deltax = pointb.x - pointa.x;
     deltay = pointb.y - pointa.y;
 
+    CHAR_INFO newchar = char_i.getCharInfo();
 
     if ( deltax != 0.0f )
     {
@@ -465,11 +469,11 @@ void cgBitmap::addLineByPoints( cgVectorInt pointa, cgVectorInt pointb, cgPixel 
         int sign = copysign(1.0f, pointb.x-pointa.x );
         for ( int x(pointa.x); sign*(pointb.x-x)>0; x += sign )
         {
-            bufor[ x + y*size.width ] = char_i;
+            bufor[ x + y*size.width ] = newchar;
             error = error + deltaerr;
             while ( error >= 0.5f )
             {
-                bufor[ x + y*size.width ] = char_i;
+                bufor[ x + y*size.width ] = newchar;
                 y += copysign( 1, pointb.y - pointa.y );
                 error = error - 1.0f;
             }
@@ -480,7 +484,7 @@ void cgBitmap::addLineByPoints( cgVectorInt pointa, cgVectorInt pointb, cgPixel 
         int sign = copysign(1.0f, pointb.y-pointa.y );
         for ( int y(pointa.y); abs(pointb.y-y)>0; y += sign )
         {
-            bufor[ pointa.x + y*size.width ] = char_i;
+            bufor[ pointa.x + y*size.width ] = newchar;
         }
     }
 
@@ -517,7 +521,7 @@ cgBitmap cgBitmap::getPartByPoints(cgVectorInt a, cgVectorInt b )
 
     cgBitmap result( cgSizeInt( b.x-a.x, b.y-a.y ) );
 
-    result.fill( cgPixelEdit::createPixel( CG_TRANSPARENT_CHAR, 0, 0 ) );
+    result.fill( cgPixel( CG_TRANSPARENT_CHAR, 0, 0 ) );
     copyToBitmap( result, cgVectorInt(-a.x, -a.y) );
     return result;
 }
@@ -541,7 +545,7 @@ cgBitmap cgBitmap::getPartByOrigin( cgVectorInt rOrigin, cgSizeInt rSize )
 
 void cgBitmap::flip(bool axis)
 {
-    cgPixel* temp = new cgPixel[ size.width * size.height ];
+    CHAR_INFO* temp = new CHAR_INFO[ size.width * size.height ];
 
     if( axis == CG_HORIZONTAL )
     {
@@ -584,7 +588,7 @@ void cgBitmap::rotate( unsigned direction, int rotations )
         case 1:
         {
             size = cgSizeInt( size.height, size.width );
-            cgPixel* temp = new cgPixel[ size.width * size.height ];
+            CHAR_INFO* temp = new CHAR_INFO[ size.width * size.height ];
 
             for (int y(0); y < size.height; y++ )
             {
@@ -602,7 +606,7 @@ void cgBitmap::rotate( unsigned direction, int rotations )
         case 2:
         {
             size = cgSizeInt( size.height, size.width );
-            cgPixel* temp = new cgPixel[ size.width * size.height ];
+            CHAR_INFO* temp = new CHAR_INFO[ size.width * size.height ];
 
             for (int y(0); y < size.height; y++ )
             {
@@ -620,7 +624,7 @@ void cgBitmap::rotate( unsigned direction, int rotations )
         case 3:
         {
             size = cgSizeInt( size.height, size.width );
-            cgPixel* temp = new cgPixel[ size.width * size.height ];
+            CHAR_INFO* temp = new CHAR_INFO[ size.width * size.height ];
 
             for (int y(0); y < size.height; y++ )
             {
@@ -636,4 +640,11 @@ void cgBitmap::rotate( unsigned direction, int rotations )
         }
 
     }
+}
+
+
+
+const cgPixel cgBitmap::getPixel( cgVectorInt coord )
+{
+    return cgPixel(bufor[ coord.x + size.width*coord.y ]);
 }

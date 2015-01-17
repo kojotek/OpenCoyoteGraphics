@@ -3,7 +3,7 @@
 
 #include "cgSize.h"
 #include "cgVector.h"
-#include "cgPixelEdit.h"
+#include "cgPixel.h"
 #include <windows.h>
 #include <iostream>
 
@@ -19,7 +19,7 @@ class cgBitmap
 {
 private:
     cgSizeInt size;
-    cgPixel* bufor;
+    CHAR_INFO* bufor;
 
 public:
 
@@ -46,6 +46,7 @@ public:
     void flip( bool VorH );
     void rotate( unsigned direction, int rotations );
     void print( cgVectorInt cpPoint );
+    const cgPixel getPixel( cgVectorInt coord );
 
 
     cgBitmap& operator = ( cgBitmap &bmp )
@@ -54,7 +55,7 @@ public:
         size = bmp.getSize();
         if ( size.width * size.height > 0 )
         {
-            bufor = new cgPixel[ size.width * size.height ];
+            bufor = new CHAR_INFO[ size.width * size.height ];
             for (int i(0); i<(size.width * size.height); i++)
             {
                 bufor[i] = bmp.bufor[i];

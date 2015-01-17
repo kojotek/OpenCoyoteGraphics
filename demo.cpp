@@ -17,31 +17,35 @@ int main()
 
     cgBitmap lol( cgSizeInt(20,20) );
 
-    cgPixel mychar = cgPixelEdit::createPixel( 'a', CG_COLOR_WHITE, CG_COLOR_BLACK );
+    cgPixel mychar( 'a', CG_COLOR_WHITE, CG_COLOR_BLACK );
 
     long ms = 0;
 
     while( WORK )
     {
 
-        int poz = -1;
+        int poz = 0;
 
-        screen.fill(cgPixelEdit::createPixel(CG_COLOR_BLACK));
+        screen.fill(cgPixel(CG_COLOR_BLACK));
 
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(176, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(177, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(178, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(219, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(219, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
+
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(219, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_LIGHT_GREY, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(' ', CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
 
 
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(176, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(177, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(178, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(219, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(178, CG_COLOR_LIGHT_GREY, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(177, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixelEdit::createPixel(176, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
+        cgPixel lol = screen.getPixel( cgVectorInt( 1,6 ) );
+        screen.fill( lol );
 
         while( ms < 16 )
         {
