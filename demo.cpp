@@ -2,7 +2,55 @@
 #include "OpenCG.h"
 #include <math.h>
 
+
 #define WORK 1
+
+
+int mousex, mousey;
+bool leftclick,rightclick;
+
+
+void lol ()
+{
+
+    // How many events have happened?
+    DWORD numEvents = 0;
+    // How many events have we read from the console?
+    DWORD numEventsRead = 0;
+    // Boolean flag to state whether app is running or not.
+
+    // Find out how many console events have happened:
+    GetNumberOfConsoleInputEvents( cgWindow::inputHandle, &numEvents);
+    // If it's not zero (something happened...)
+    if (numEvents != 0)
+    {
+        // Create a buffer of that size to store the events
+        INPUT_RECORD *eventBuffer = new INPUT_RECORD[numEvents];
+
+        // Read the console events into that buffer, and save how
+        // many events have been read into numEventsRead.
+        ReadConsoleInput(cgWindow::inputHandle, eventBuffer, numEvents, &numEventsRead);
+
+        // Now, cycle through all the events that have happened:
+        for (DWORD i = 0; i < numEventsRead; ++i) {
+
+            // Check the event type: was it a key?
+            if (eventBuffer[i].EventType == MOUSE_EVENT) {
+
+                mousex = eventBuffer[i].Event.MouseEvent.dwMousePosition.X;
+                mousey = eventBuffer[i].Event.MouseEvent.dwMousePosition.Y;
+            }
+        }
+
+        // Clean up our event buffer:
+        delete[] eventBuffer;
+    }
+}
+
+
+
+
+
 
 int main()
 {
@@ -15,48 +63,18 @@ int main()
 
     cgBitmap screen( cgSizeInt(cgWindow::getSize().width, cgWindow::getSize().height) );
 
-    cgBitmap lol( cgSizeInt(20,20) );
-
-    cgPixel mychar( 'a', CG_COLOR_WHITE, CG_COLOR_BLACK );
-
-    long ms = 0;
 
     while( WORK )
     {
 
-        int poz = 0;
+        screen.fill( cgPixel( cgPixel(CG_COLORSET_BLUE_20) ) );
+        lol();
+        screen.addRectByPoints( cgVectorInt( 0,0), cgVectorInt( mousex, mousey), cgPixel( CG_COLORSET_BLACK ), CG_FILLED );
 
-        screen.fill(cgPixel(CG_COLOR_BLACK));
-
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(219, CG_COLOR_BLACK, CG_COLOR_GREEN), CG_FILLED );
-
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(219, CG_COLOR_GREEN, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(178, CG_COLOR_LIGHT_GREY, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(177, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(176, CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-        poz+=5; screen.addRectByOrigin( cgVectorInt(0,poz), cgSizeInt(80,5), cgPixel(' ', CG_COLOR_WHITE, CG_COLOR_LIGHT_GREEN), CG_FILLED );
-
-
-        cgPixel lol = screen.getPixel( cgVectorInt( 1,6 ) );
-        screen.fill( lol );
-
-        while( ms < 16 )
-        {
-            screen.print( cgVectorInt(0,0) );
-            ms = timer.getTime();
-        }
-
-        ms = 0;
-        timer.reset();
+        screen.print( cgVectorInt(0,0) );
 
     }
+
 
     return 0;
 }
