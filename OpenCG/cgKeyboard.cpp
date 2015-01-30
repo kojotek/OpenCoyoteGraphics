@@ -16,9 +16,9 @@ void cgKeyboard::updateKeyboard()
     _lastState = _isPressed;
     _isPressed.reset();
 
-    for (int i(0); i<101; i++)
+    for (int i(0); i<CG_KEYSET_SIZE; i++)
     {
-        _isPressed[ _keyTable[i] ] = ( GetKeyState( _keyTable[i] ) & 0x80 );
+        _isPressed[ i ] = ( GetKeyState( _keyTable[i] ) & 0x80 );
     }
 
     _isUp = ( (~_isPressed) & _lastState );

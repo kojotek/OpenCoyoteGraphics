@@ -36,7 +36,7 @@ public:
 
     cgSize<T> operator - ( const cgSize<T> &another)
     {
-        return cgSize<T>( another.width - width, another.height - height );
+        return cgSize<T>( width - another.width, height - another.height );
     }
 
     cgSize<T> operator * ( const T &another )

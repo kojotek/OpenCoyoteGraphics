@@ -39,7 +39,7 @@ public:
 
     cgVector<T> operator - ( const cgVector<T> &another)
     {
-        return cgVector<T>( another.x - x, another.y - y );
+        return cgVector<T>( x - another.x, y - another.y );
     }
 
 
