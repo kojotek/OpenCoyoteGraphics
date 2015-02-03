@@ -5,4 +5,5 @@
 #include "OpenCG/cgBitmap.h"
 #include "OpenCG/cgKeyNames.h"
 #include "OpenCG/cgKeyboard.h"
+#include "OpenCG/cgMouse.h"
 #include "OpenCG/cgTimer.h"

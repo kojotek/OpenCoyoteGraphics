@@ -4,7 +4,7 @@
 #include "cgKeyNames.h"
 
 
-cgKeyboard::cgKeyboard() :
+cgKeyboard::cgKeyboard():
     isPressed(_isPressed),
     isDown(_isDown),
     isUp(_isUp)
@@ -14,11 +14,10 @@ cgKeyboard::cgKeyboard() :
 void cgKeyboard::updateKeyboard()
 {
     _lastState = _isPressed;
-    _isPressed.reset();
 
-    for (int i(0); i<CG_KEYSET_SIZE; i++)
+    for( int i(0); i<HANDLED_KEYS; i++ )
     {
-        _isPressed[ i ] = ( GetKeyState( _keyTable[i] ) & 0x80 );
+        _isPressed[ _keyTable[i] ] = ( GetKeyState( _keyTable[i] ) & 0x80 );
     }
 
     _isUp = ( (~_isPressed) & _lastState );
@@ -53,4 +52,3 @@ int _keyTableData[] =
 
 
 int* cgKeyboard::_keyTable = _keyTableData;
-
