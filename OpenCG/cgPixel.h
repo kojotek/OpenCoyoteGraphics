@@ -13,6 +13,7 @@ public:
     cgPixel( CHAR asciiChar, WORD backgroundColor, WORD foregroundColor );
     cgPixel( WORD color );
     cgPixel( CHAR_INFO char_info );
+    cgPixel();
     void setFrontClr( WORD foregroundColor );
     void setBckClr( WORD backgroundColor );
     void setAscii( CHAR asciiChar );

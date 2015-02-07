@@ -1,6 +1,13 @@
 #include "cgPixel.h"
 
 
+cgPixel::cgPixel()
+{
+    pixelInfo.Char.AsciiChar = 'n';
+    pixelInfo.Attributes = CG_COLOR_WHITE + 16*CG_COLOR_BLACK;
+}
+
+
 cgPixel::cgPixel( CHAR asciiChar, WORD backgroundColor, WORD foregroundColor )
 {
     pixelInfo.Char.AsciiChar = asciiChar;
