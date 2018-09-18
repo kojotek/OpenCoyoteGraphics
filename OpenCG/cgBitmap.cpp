@@ -5,7 +5,7 @@
 #include "cgPixel.h"
 #include <vector>
 #include <string>
-#include <tinyxml.h>
+#include "../tinyxml/tinyxml.h"
 #include <math.h>
 
 

@@ -1,27 +1,30 @@
 #include "cgTimer.h"
+#include <time.h>
+#include <winsock.h>
 
+class cgTimer;
 
 cgTimer::cgTimer()
 {
-    gettimeofday( &current, NULL );
-    gettimeofday( &last, NULL );
+	current = new timeval();
+	last = new timeval();
+	gettimeofday(current, NULL);
+    gettimeofday(last, NULL);
 }
-
-
 
 unsigned long int cgTimer::reset( int unit )
 {
     long long int timePassed;
-    gettimeofday( &current, NULL );
+    gettimeofday(current, NULL );
 
     if ( unit == CG_MICROSECONDS )
-        timePassed = ( ( ( current.tv_sec - last.tv_sec ) * 1000000 ) + ( current.tv_usec - last.tv_usec ) );
+        timePassed = ( ( ( current->tv_sec - last->tv_sec ) * 1000000 ) + ( current->tv_usec - last->tv_usec ) );
 
     if ( unit == CG_MILISECONDS )
-        timePassed = ( ( ( current.tv_sec - last.tv_sec ) * 1000 ) + ( ( current.tv_usec - last.tv_usec ) / 1000 ) );
+        timePassed = ( ( ( current->tv_sec - last->tv_sec ) * 1000 ) + ( ( current->tv_usec - last->tv_usec ) / 1000 ) );
 
     if ( unit == CG_SECONDS )
-        timePassed = ( current.tv_sec - last.tv_sec );
+        timePassed = ( current->tv_sec - last->tv_sec );
 
     last = current;
     return timePassed;
@@ -31,14 +34,14 @@ unsigned long int cgTimer::reset( int unit )
 unsigned long int cgTimer::getTime( int unit )
 {
     long long int timePassed;
-    gettimeofday( &current, NULL );
+    gettimeofday(current, NULL );
 
     if ( unit == CG_MICROSECONDS )
-        return ( ( ( current.tv_sec - last.tv_sec ) * 1000000 ) + ( current.tv_usec - last.tv_usec ) );
+        return ( ( ( current->tv_sec - last->tv_sec ) * 1000000 ) + ( current->tv_usec - last->tv_usec ) );
 
     if ( unit == CG_MILISECONDS )
-        return ( ( ( current.tv_sec - last.tv_sec ) * 1000 ) + ( ( current.tv_usec - last.tv_usec ) / 1000 ) );
+        return ( ( ( current->tv_sec - last->tv_sec ) * 1000 ) + ( ( current->tv_usec - last->tv_usec ) / 1000 ) );
 
     if ( unit == CG_SECONDS )
-        return ( current.tv_sec - last.tv_sec );
+        return ( current->tv_sec - last->tv_sec );
 }

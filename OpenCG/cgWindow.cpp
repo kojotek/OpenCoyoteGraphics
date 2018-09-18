@@ -1,5 +1,6 @@
 #include "cgWindow.h"
 #include "cgSize.h"
+#include <winnt.h>
 
 
 HANDLE cgWindow::inputHandle;
@@ -25,7 +26,7 @@ void cgWindow::init()
     outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     setFontSize(CG_FONT_SIZE_8X12);
     setSize(cgSizeInt(20,20));
-    setName("Coyote Console");
+    setName(_strdup("Coyote Console"));
 }
 
 
@@ -45,7 +46,7 @@ void cgWindow::setSize( cgSizeInt s )
 
 void cgWindow::setName( char* newName )
 {
-    SetConsoleTitle( TEXT( name = newName ) );
+	SetConsoleTitleA(newName);
 }
 
 
@@ -57,7 +58,7 @@ void cgWindow::setFontSize( cgSizeInt font )
     cfi.FontFamily = 48;
     cfi.dwFontSize.X = fontSize.width;
     cfi.dwFontSize.Y = fontSize.height;
-    wcscpy(cfi.FaceName, L"Terminal");
+    wcscpy_s(cfi.FaceName, L"Terminal");
     SetCurrentConsoleFontEx(cgWindow::outputHandle, FALSE, &cfi);
 }
 

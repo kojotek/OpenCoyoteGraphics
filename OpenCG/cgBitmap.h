@@ -1,6 +1,8 @@
 #ifndef _CGBITMAP_
 #define _CGBITMAP_
 
+#define NOMINMAX
+
 #include "cgSize.h"
 #include "cgVector.h"
 #include "cgPixel.h"
